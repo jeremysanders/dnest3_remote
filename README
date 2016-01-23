@@ -1,5 +1,6 @@
 Code based on DNest3 calling a function in an external program to
-evaluate the log likelihood for a set of model parameters.
+evaluate the log likelihood for a set of model parameters. Released
+under the GPL version 3 or greater.
 
 The program test_remote.py is an example external program. The program
 is called with the arguments
