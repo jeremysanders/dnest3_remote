@@ -1,0 +1,35 @@
+Code based on DNest3 calling a function in an external program to
+evaluate the log likelihood for a set of model parameters.
+
+The program test_remote.py is an example external program. The program
+is called with the arguments
+
+external_program params fd
+
+where fd is a file descriptor (a socket) which should receive the
+information about the parameters of the model. The program should send
+back via the socket a natively-encoded int giving the number of
+parameters followed by N natively-encoded structures with the
+following format:
+
+struct ParameterRecord
+{
+  double defval;    // default value
+  double minval;    // minimum value
+  double maxval;    // maximum value
+  double randrange; // scaling factor of randh() for parameter pertubations
+                    // (e.g. maxval-minval)
+  char name[32];    // parameter name
+};
+
+The program should then exit.
+
+The program is called again by each thread of the sampler with the
+following format
+
+external_program run fd
+
+where fd is another file descriptor. The program should read N double
+values (in binary) from the file descriptor, then write the log
+likelihood as a double (in binrary) back to the file descriptor. If
+there are no data to read the program should exit.
