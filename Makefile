@@ -1,22 +1,22 @@
-CFLAGS = -O2 -Wall -I/usr/local/include/dnest3
+CFLAGS = -O2 -Wall -I/home/jsanders/soft/include/dnest3
 LIBS =  -ldnest3 -lgsl -lgslcblas -lboost_system -lboost_thread
 
-LDLIBS = -ldnest3 -lgsl -lgslcblas -lboost_system -lboost_thread -lm -lpthread
+LDLIBS = -L/home/jsanders/soft/lib -ldnest3 -lgsl -lgslcblas -lboost_system -lboost_thread -lm -lpthread
 LDFLAGS =
-OBJS = main.o RemoteModel.o
-TARGETS = main
+OBJS = dnest3_remote.o RemoteModel.o
+TARGETS = dnest3_remote
 
 %.o: %.cpp
 	$(CXX) -c $(CPPFLAGS) $(CFLAGS) $<
 
 all: $(TARGETS)
 
-main: $(OBJS)
-	$(CXX) $(LDFLAGS) -o main $(OBJS) $(LDLIBS)
+dnest3_remote: $(OBJS)
+	$(CXX) $(LDFLAGS) -o dnest3_remote $(OBJS) $(LDLIBS)
 
 RemoteModel.o: RemoteModel.hpp
 
-main.o: RemoteModel.hpp
+dnest3_remote.o: RemoteModel.hpp
 
 clean:
 	rm -f $(OBJS)
@@ -27,5 +27,5 @@ dist-clean: clean
 
 default:
 	g++ $(CFLAGS) -c *.cpp
-	g++ -o main *.o $(LIBS)
+	g++ -o dnest3_remote *.o $(LIBS)
 	rm -f *.o
